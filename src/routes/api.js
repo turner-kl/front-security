@@ -10,8 +10,20 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-    const message = req.query.message;
-  res.send({ message});
+  
+  res.setHeader("X-Timestamp", Date.now());
+  let message = req.query.message;
+const lang = req.headers["x-lang"]
+  if (message === "") {
+    res.status(400);
+    if(lang === "en"){
+      message = "message is empty"
+    }else {
+
+      message = "messageの値が空です";
+    }
+  }
+  res.send({ message });
 });
 
 module.exports = router;
